@@ -26,9 +26,11 @@ RUN apt-get update && apt-get install -y \
     libavformat-dev \
     libavcodec-dev \
     zlib1g-dev
-
+    
+# Copy the setup.py file into the container at /app
+COPY setup.py /app/
 # Build the Kivy application
-RUN python3 main.py build_ext --inplace
+RUN python setup.py build_ext --inplace
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
@@ -37,4 +39,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["python3", "main.py"]
+CMD ["python", "main.py"]

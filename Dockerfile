@@ -4,13 +4,10 @@ FROM python:3.8-slim
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy only the necessary files into the container at /app
+COPY main.py requirements.txt ./
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Install build dependencies for Kivy (adjust as needed)
 RUN apt-get update && apt-get install -y \
     python3-pip \
     build-essential \
@@ -25,12 +22,14 @@ RUN apt-get update && apt-get install -y \
     libswscale-dev \
     libavformat-dev \
     libavcodec-dev \
-    zlib1g-dev
-    
-# Copy the setup.py file into the container at /app
-COPY setup.py /app/
+    zlib1g-dev \
+ && pip install --no-cache-dir -r requirements.txt
+
+# Copy the entire application directory into the container at /app
+COPY . /app
+
 # Build the Kivy application
-RUN python setup.py build_ext --inplace
+RUN python3 setup.py build_ext --inplace
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
@@ -38,5 +37,5 @@ EXPOSE 80
 # Define environment variable
 ENV NAME World
 
-# Run app.py when the container launches
-CMD ["python", "main.py"]
+# Run main.py when the container launches
+CMD ["python3", "main.py"]

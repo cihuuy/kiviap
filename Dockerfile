@@ -29,6 +29,10 @@ RUN apt-get update && apt-get install -y \
 COPY . /app
 
 # Build the Kivy application
+# Set the working directory to /app
+WORKDIR /app
+
+# Build the Kivy application
 RUN python3 setup.py build_ext --inplace
 
 # Make port 80 available to the world outside this container

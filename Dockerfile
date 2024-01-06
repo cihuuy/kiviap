@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev
 
 # Build the Kivy application
-RUN python setup.py build_ext --inplace
+RUN python3 setup.py build_ext --inplace
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
@@ -37,4 +37,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["python", "main.py"]
+CMD ["python3", "main.py"]
